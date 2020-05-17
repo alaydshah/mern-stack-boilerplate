@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get("/api/user/auth", auth, (req, res) => {
+app.get("/api/users/auth", auth, (req, res) => {
     res.status(200).json({
         _id: req._id,
         isAuth: true,
@@ -53,7 +53,7 @@ app.post('/api/users/register', (req, res) => {
 
 })
 
-app.post('/api/user/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
     //Find the email
     User.findOne({
         email: req.body.email
@@ -85,7 +85,7 @@ app.post('/api/user/login', (req, res) => {
     });
 });
 
-app.get('/api/user/logout', auth, (req, res) => {
+app.get('/api/users /logout', auth, (req, res) => {
     User.findOneAndUpdate({_id: req.user._id}, {token: ""}, (err, doc) => {
         if(err) return res.json({
             success: false,
@@ -105,3 +105,5 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server Running at ${port}`);
 });
+
+process.on('SIGUSR2', () => { process.exit(0); });
